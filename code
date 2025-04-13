@@ -16,7 +16,7 @@ op_color = "#ff69b4"
 btn_text = "#fff" if dark else "#000"
 
 # --- Title ---
-st.markdown("<h1 style='text-align:center;'>🧮 Aesthetic Calculator 👑</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center;'>🧮 Arithmetic Calculator 👑</h1>", unsafe_allow_html=True)
 
 # --- CSS for animations ---
 st.markdown(f"""

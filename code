@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- Page Setup ---
-st.set_page_config(page_title="✨ Arthimetic Calculator", page_icon="🧮")
+st.set_page_config(page_title="✨ Arithmetic Calculator", page_icon="🧮")
 
 # --- Session Setup ---
 if "expression" not in st.session_state:

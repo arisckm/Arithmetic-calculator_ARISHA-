@@ -1,0 +1,82 @@
+import streamlit as st
+
+# --- Page Setup (this must be first!) ---
+st.set_page_config(page_title="ARITHMETIC CLACULATOR 👑", page_icon="🧮")
+
+# --- Session Setup ---
+if "expression" not in st.session_state:
+    st.session_state.expression = ""
+
+# --- Theme Toggle ---
+dark = st.toggle("🌙 Dark Mode", value=True)
+bg = "#111" if dark else "#fff"
+text_color = "#0f0" if dark else "#000"
+btn_color = "#444" if dark else "#ddd"
+btn_text = "#fff" if dark else "#000"
+op_color = "#e91e63"  # Color for operators
+clear_color = "#f44336"
+
+# --- Page Content ---
+st.title("                🧮 ARTHIMETIC CALCULATOR                       ")
+
+# --- Display Expression ---
+st.markdown(f"""
+<div style='
+    background-color: {bg};
+    color: {text_color};
+    font-size: 32px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: right;
+    border: 2px solid #888;
+    margin-bottom: 10px;
+'>
+    {st.session_state.expression if st.session_state.expression else "0"}
+</div>
+""", unsafe_allow_html=True)
+
+# --- Button Layout ---
+buttons = [
+    ["7", "8", "9", "/", "DIVIDE"],
+    ["4", "5", "6", "+", "<-FOR ADDITION"],
+    ["1", "2", "3", "-", "<-FOR SUBTRACTION"],
+    ["0", ".", "Calculate", "*","<-FOR MULTIPLICATION"]
+]
+
+# Use columns for better layout
+for row in buttons:
+    cols = st.columns(5)
+    for i, val in enumerate(row):
+        with cols[i]:
+            if val in "+-*/Calculate":
+                # For operators, use a distinct color
+                button_color = op_color
+            else:
+                button_color = btn_color
+
+            # Render the button and check its functionality
+            if st.button(val, key=val, use_container_width=True):
+                if val == "Calculate":
+                    try:
+                        st.session_state.expression = str(eval(st.session_state.expression))
+                    except:
+                        st.session_state.expression = "Error"
+                else:
+                    st.session_state.expression += val
+                st.rerun()
+
+# --- Input Expression Field (Optional) ---
+with st.form("calc_input"):
+    expr = st.text_input("Or type here:", value=st.session_state.expression)
+    submit = st.form_submit_button("Calculate")
+    if submit:
+        try:
+            st.session_state.expression = str(eval(expr))
+        except:
+            st.session_state.expression = "Error"
+        st.rerun()
+
+# --- Clear Button ---
+if st.button("Clear", type="primary"):
+    st.session_state.expression = ""
+    st.rerun()
